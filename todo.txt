@@ -1,0 +1,1 @@
+ Sleep saveti za pro mini: https://forum.arduino.cc/t/arduino-pro-mini-power-and-status-on-board-leds/4114/7

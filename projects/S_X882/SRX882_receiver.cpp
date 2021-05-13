@@ -1,6 +1,6 @@
 #include <RH_ASK.h>
 #include <SPI.h>
-RH_ASK rf;
+RH_ASK rf; // pin 11
 long ms;
 
 const byte pinLed = LED_BUILTIN;

@@ -1,14 +1,14 @@
 #include <RH_ASK.h>
-RH_ASK rf;
+RH_ASK rf; // pin 12
 //#include <SPI.h>
 
-const byte pinLed = LED_BUILTIN;
-void ledOn(bool on) { digitalWrite(pinLed, on); }
+//B const byte pinLed = LED_BUILTIN;
+void ledOn(bool on) { digitalWrite(LED_BUILTIN, on); }
 
 void setup()
 {
   rf.init();
-  pinMode(pinLed, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
   // Serial.begin(9600);
   //  digitalWrite(LED_BUILTIN, false);
 }
