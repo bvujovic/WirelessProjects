@@ -8,6 +8,7 @@
  * how to wake it up.
  * Link To Tutorial https://thekurks.net/blog/2018/1/24/guide-to-arduino-sleep-mode
  */
+// Sleep saveti za pro mini: https://forum.arduino.cc/t/arduino-pro-mini-power-and-status-on-board-leds/4114/7
 
 #include <Arduino.h>
 #include <avr/sleep.h> //this AVR library contains the methods that controls the sleep modes

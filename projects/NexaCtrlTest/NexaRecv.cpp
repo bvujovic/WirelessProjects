@@ -1,3 +1,5 @@
+//* Dekodiranje signala poslatog sa nekog aparata koriscenjem NexaCtrl klase.
+
 /*
  * AM-HRR3 receiver test
  *

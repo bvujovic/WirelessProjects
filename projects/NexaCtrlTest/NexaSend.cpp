@@ -1,41 +1,30 @@
+//* Slanje periodicnih test signala koriscenjem NexaCtrl klase.
+//* https://github.com/TheCarlG/NexaCtrl
+
 #include <NexaCtrl.h>
 
-#define LED_PIN 13
-#define TX_PIN 7
-#define RX_PIN 8
+//* za Arduino
+// const byte pinLed = LED_BUILTIN;
+// const byte pinTx = 7;
+// const byte pinRx = 8;
+//* za ATtiny85
+const byte pinLed = 2;
+const byte pinTx = 0;
+const byte pinRx = 3;
 
-// Your remote id which can be it can be "sniffed" with the 
+// Your remote id which can be it can be "sniffed" with the
 // reciever example at http://playground.arduino.cc/Code/HomeEasy
-const static unsigned long controller_id = 1234567;
+const static unsigned long controller_id = 123;
 unsigned int device = 0;
 
-NexaCtrl nexaCtrl(TX_PIN, RX_PIN, LED_PIN);
+NexaCtrl nexaCtrl(pinTx, pinRx, pinLed);
 
-void setup()
-{
-    // nexaCtrl.DeviceDim(controller_id, device, 0);
-    // delay(3000);
-    // nexaCtrl.DeviceDim(controller_id, device, 15);
-    // delay(3000);
-    // nexaCtrl.DeviceDim(controller_id, device, 0);
-
-    // delay(3000);
-
-    // nexaCtrl.DeviceOn(controller_id, device);
-    // delay(3000);
-    // nexaCtrl.DeviceOff(controller_id, device);
-
-    // delay(3000);
-
-    // nexaCtrl.GroupOff(controller_id);
-    // delay(3000);
-    // nexaCtrl.GroupOn(controller_id);
-}
+void setup() {}
 
 void loop()
 {
     nexaCtrl.DeviceOn(controller_id, device);
     delay(1000);
     nexaCtrl.DeviceOff(controller_id, device);
-    delay(3000);
+    delay(4000);
 }
