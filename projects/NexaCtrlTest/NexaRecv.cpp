@@ -45,109 +45,143 @@
 
 #include <Arduino.h>
 
-const int rxPin = 11;
-const byte pinLed = LED_BUILTIN;
+#define TTINY true
 
-void printResult(unsigned long sender, bool group, bool on, unsigned int recipient)
-{
-    Serial.println(millis());
-    Serial.print("Sender ");
-    Serial.println(sender);
-    if (group)
-        Serial.println("group command");
-    Serial.println(on ? "on" : "off");
-    Serial.print("recipient ");
-    Serial.println(recipient);
-    Serial.println();
-}
+const int rxPin = TTINY ? 0 : 11;
+const byte pinLed = TTINY ? 1 : LED_BUILTIN;
 
 void setup()
 {
     pinMode(rxPin, INPUT);
     pinMode(pinLed, OUTPUT);
+#if !TTINY
     Serial.begin(9600);
+    Serial.println("START");
+#endif
 }
+
+unsigned long t;
 
 void loop()
 {
-    int i = 0;
-    unsigned long t = 0;
+    while ((t < 2550 || t > 2700))
+        t = pulseIn(rxPin, LOW, 1000000);
+#if !TTINY
+    Serial.println("*******");
+#endif
 
-    byte prevBit = 0;
-    byte bit = 0;
-
-    unsigned long sender = 0;
-    bool group = false;
-    bool on = false;
-    unsigned int recipient = 0;
-
-    // latch 1
-    while ((t < 9480 || t > 10350))
+    unsigned int i = 2;
+    while (i <= 5)
     {
         t = pulseIn(rxPin, LOW, 1000000);
-    }
-
-    // latch 2
-    while (t < 2550 || t > 2700)
-    {
-        t = pulseIn(rxPin, LOW, 1000000);
-    }
-
-    // data
-    while (i < 64)
-    {
-        t = pulseIn(rxPin, LOW, 1000000);
-
-        if (t > 200 && t < 365)
-        {
-            bit = 0;
-        }
-        else if (t > 1000 && t < 1360)
-        {
-            bit = 1;
-        }
+#if !TTINY
+        Serial.println(t);
+#endif
+        if (t > i * 1000 - 100 && t < i * 1000 + 100)
+            i++;
         else
         {
             i = 0;
             break;
         }
-
-        if (i % 2 == 1)
-        {
-            if ((prevBit ^ bit) == 0)
-            { // must be either 01 or 10, cannot be 00 or 11
-                i = 0;
-                break;
-            }
-
-            if (i < 53)
-            { // first 26 data bits
-                sender <<= 1;
-                sender |= prevBit;
-            }
-            else if (i == 53)
-            { // 26th data bit
-                group = prevBit;
-            }
-            else if (i == 55)
-            { // 27th data bit
-                on = prevBit;
-            }
-            else
-            { // last 4 data bits
-                recipient <<= 1;
-                recipient |= prevBit;
-            }
-        }
-
-        prevBit = bit;
-        ++i;
     }
 
-    // interpret message
     if (i > 0)
     {
-        printResult(sender, group, on, recipient);
-        digitalWrite(pinLed, on);
+#if !TTINY
+        Serial.println("success!!!");
+#endif
+        digitalWrite(pinLed, true);
+        delay(200);
+        digitalWrite(pinLed, false);
     }
+
+    // int i = 0;
+    // unsigned long t = 0;
+
+    // byte prevBit = 0;
+    // byte bit = 0;
+
+    // unsigned long sender = 0;
+    // bool group = false;
+    // bool on = false;
+    // unsigned int recipient = 0;
+
+    // // latch 1
+    // while ((t < 9480 || t > 10350))
+    // {
+    //     t = pulseIn(rxPin, LOW, 1000000);
+    // }
+    // Serial.println("*******");
+    // Serial.println(t);
+
+    // // latch 2
+    // while (t < 2550 || t > 2700)
+    // {
+    //     t = pulseIn(rxPin, LOW, 1000000);
+    // }
+    // Serial.println(t);
+    // digitalWrite(pinLed, true);
+    // delay(200);
+    // digitalWrite(pinLed, false);
+
+    // // data
+    // while (i < 64)
+    // {
+    //     t = pulseIn(rxPin, LOW, 1000000);
+
+    //     if (t > 200 && t < 365)
+    //     {
+    //         bit = 0;
+    //     }
+    //     else if (t > 1000 && t < 1360)
+    //     {
+    //         bit = 1;
+    //     }
+    //     else
+    //     {
+    //         i = 0;
+    //         break;
+    //     }
+
+    //     if (i % 2 == 1)
+    //     {
+    //         if ((prevBit ^ bit) == 0)
+    //         { // must be either 01 or 10, cannot be 00 or 11
+    //             i = 0;
+    //             break;
+    //         }
+
+    //         if (i < 53)
+    //         { // first 26 data bits
+    //             sender <<= 1;
+    //             sender |= prevBit;
+    //         }
+    //         else if (i == 53)
+    //         { // 26th data bit
+    //             group = prevBit;
+    //         }
+    //         else if (i == 55)
+    //         { // 27th data bit
+    //             on = prevBit;
+    //         }
+    //         else
+    //         { // last 4 data bits
+    //             recipient <<= 1;
+    //             recipient |= prevBit;
+    //         }
+    //     }
+
+    //     prevBit = bit;
+    //     ++i;
+    // }
+
+    // // interpret message
+    // if (i > 0)
+    // {
+    //     printResult(sender, group, on, recipient);
+    //     digitalWrite(pinLed, true);
+    //     delay(200);
+    //     digitalWrite(pinLed, false);
+    // }
 }
