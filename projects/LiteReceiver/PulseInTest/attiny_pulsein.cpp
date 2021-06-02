@@ -29,7 +29,7 @@ void setup()
     //      ee.MemToDisplay(200);
     //      while(1)
     //        delay(100);
-    Wire.begin(8);                // join i2c bus with address #8
+    Wire.begin(9);                // join i2c bus with address #9
     Wire.onRequest(requestEvent); // register event
 
     pinMode(pinIn, INPUT);
