@@ -12,4 +12,4 @@ Sender: sleeping ATtiny85 that wakes up on PIR signal.
 - tiny sends 'device on' signal
 - goes to sleep
 
-![Sender and Receiver test devices](https://github.com/bvujovic/WirelessProjects/blob/main/projects/NexaCtrlTest/docs/test_send_recv.jpg)
+![Sender and Receiver test devices](https://github.com/bvujovic/WirelessProjects/blob/main/projects/NexaCtrlTest/.github/test_send_recv.jpg)
