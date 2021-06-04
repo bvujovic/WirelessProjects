@@ -92,5 +92,3 @@ ISR(WDT_vect)
 {
     f_wdt = 1; // set global flag
 }
-
-//* **********

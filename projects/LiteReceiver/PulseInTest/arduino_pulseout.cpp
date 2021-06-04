@@ -7,7 +7,7 @@ typedef unsigned int uint;
 const byte pinLed = LED_BUILTIN;
 const byte pinTx = 7;
 
-const uint itvMain = 3000; // (u msec) bleja izmedju slanja signala
+const uint itvMain = 100; // (u msec) bleja izmedju slanja signala, za test itvMain=3000
 const uint itvHigh = 3000; // (u usec) trajanje HIGH signala
 
 // Salje (HIGH/LOW) na pinTx i drzi tu vrednost itv mikrosekundi.
@@ -41,7 +41,7 @@ void loop()
     sendPulse(4500); // Latch 1 - nekad je potreban, a nekad nije!!
     sendPulse(2675); // Latch 2
 
-    // trajanje slanja signala (u usec): 5.5+4*(5+6.5)= 51.5
+    // trajanje slanja signala (u ms): 10+2+3+4+5 = 24
     for (size_t i = 2; i <= 5; i++)
     {
         //B sendPulse(2000);     // za ATtiny85 ide svaki drugi fake signal - ispade da ne treba
