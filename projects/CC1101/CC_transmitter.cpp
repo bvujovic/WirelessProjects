@@ -30,26 +30,33 @@ CC1101 radio = new Module(10, 2, RADIOLIB_NC, 3);
 // https://github.com/jgromes/RadioShield
 //CC1101 radio = RadioShield.ModuleA;
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
 
   // initialize CC1101 with default settings
   Serial.print(F("[CC1101] Initializing ... "));
   int state = radio.begin();
-  if (state == ERR_NONE) {
+  if (state == ERR_NONE)
+  {
     Serial.println(F("success!"));
-  } else {
+    //? radio.setOOK(true);
+  }
+  else
+  {
     Serial.print(F("failed, code "));
     Serial.println(state);
-    while (true);
+    while (true)
+      ;
   }
 }
 
-void loop() {
+void loop()
+{
   Serial.print(F("[CC1101] Transmitting packet ... "));
 
   // you can transmit C-string or Arduino string up to 63 characters long
-//   int state = radio.transmit("Hello World!");
+  //   int state = radio.transmit("Hello World!");
   int state = radio.transmit("Helou");
 
   // you can also transmit byte array up to 63 bytes long
@@ -58,19 +65,21 @@ void loop() {
     int state = radio.transmit(byteArr, 8);
   */
 
-  if (state == ERR_NONE) {
+  if (state == ERR_NONE)
+  {
     // the packet was successfully transmitted
     Serial.println(F("success!"));
-
-  } else if (state == ERR_PACKET_TOO_LONG) {
+  }
+  else if (state == ERR_PACKET_TOO_LONG)
+  {
     // the supplied packet was longer than 64 bytes
     Serial.println(F("too long!"));
-
-  } else {
+  }
+  else
+  {
     // some other error occurred
     Serial.print(F("failed, code "));
     Serial.println(state);
-
   }
 
   // wait for a second before transmitting again
